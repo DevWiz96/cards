@@ -9,8 +9,17 @@ const generateOtp = ()=>{
 
 exports.createOtp = async(email)=>{
 
-   //Invalidate all the previous OTP 
-  await Otp.updateMany(
+   //Rate limitting 
+   const lastOtp = await Otp.findOne({email}).sort({createdAt:-1})
+   if(lastOtp)
+   {
+        const timeElapsed = (Date.now() - lastOtp.createdAt.getTime())/1000 //Returns elapsed in seconds
+        if(timeElapsed<80)
+            throw new Error("Otp Limit Exceeded")
+   }
+   
+    //Invalidate all the previous OTP 
+    await Otp.updateMany(
     {email, used:false}, //condition
     {$set:{used:true}} // Set Operation for all the records
 )
