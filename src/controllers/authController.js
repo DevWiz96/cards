@@ -2,7 +2,8 @@ const User = require('../models/user.model')
 const otpService = require('../services/otpService')
 const emailService = require('../services/emailService')
 const generateToken = require('../util/generateToken')
-exports.requestOtp = async (req, res) => {
+const asyncHandler = require('../util/asyncHandler')
+exports.requestOtp = asyncHandler( async (req, res) => {
     const { email } = req.body //Payload
     const user = await User.findOne({ email })
     if (!user) {
@@ -12,9 +13,8 @@ exports.requestOtp = async (req, res) => {
     //Email to customer
     await emailService.sendEmail(email, code)
     res.json({ success: true, message: "Email sent succesfully" })
-}
-exports.verifyOtp = async (req, res) => {
-    try {
+})
+exports.verifyOtp = asyncHandler (async (req, res) => {
         const { email, code } = req.body
         if (!email || !code)
             return res.status(400).json({ message: "Email & code requried verified" })
@@ -33,8 +33,4 @@ exports.verifyOtp = async (req, res) => {
             secure: process.env.NODE_ENV === 'production'
          })
          res.json({user:{email:user.email, name: user.name, isVerified: user.isVerified}})
-    }
-    catch (err) {
-        res.status(400).json({ error: err.message })
-    }
-}
+})
