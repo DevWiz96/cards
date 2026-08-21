@@ -13,7 +13,7 @@ exports.requestOtp = async (req, res) => {
     await emailService.sendEmail(email, code)
     res.json({ success: true, message: "Email sent succesfully" })
 }
-exports.verfiyOtp = async (req, res) => {
+exports.verifyOtp = async (req, res) => {
     try {
         const { email, code } = req.body
         if (!email || !code)
