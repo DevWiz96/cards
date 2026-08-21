@@ -3,5 +3,6 @@ const router = express.Router()
 const authController = require('../controllers/authController')
 
 router.post('/request-otp', authController.requestOtp)
+router.post('/verify-otp', authController.verfiyOtp)
 
 module.exports = router

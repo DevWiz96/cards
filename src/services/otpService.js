@@ -33,11 +33,11 @@ exports.verifyOtp = async(email, code)=>{
     const otpRecord = await Otp.findOne({email}).sort({createdAt:-1}) // The latest Otp
     // No record, Otp used, Expired, Code's dont match
     if(otpRecord === null || otpRecord.used === true)
-        throw new Error("Invalid OTP")
+        throw new Error("Invalid OTP No record")
     if(otpRecord.expiresAt < new Date())
         throw new Error("Otp Expired")
     if(otpRecord.code !== code)
-        throw new Error("Invalid OTP")
+        throw new Error("Invalid OTP code not matching")
 
     otpRecord.used = true
     await otpRecord.save()

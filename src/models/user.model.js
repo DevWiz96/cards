@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     name:{
         type: String,
         maxLength: 100,
+    },
+    isVerified:{
+        type: Boolean,
+        default: false
     }
 },{timestamps: true})
 
