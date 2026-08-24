@@ -8,8 +8,8 @@ module.exports = (req,res,next)=>{
 
     try
     {
-        const decodedId = jwt.verify(token, process.env.JWT_SECRET) // Decoding the userID from the token
-        req.userId = decodedId
+        const decoded = jwt.verify(token, process.env.JWT_SECRET) // Decoding the userID from the token
+        req.userId = decoded.id// decoded.iat, decoded.expiry
         next()
     }
     catch(err)
