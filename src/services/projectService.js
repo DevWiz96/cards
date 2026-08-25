@@ -1,18 +1,18 @@
 const Project = require('../models/project.model')
-const Collumn = require('../models/collumn.model')
+const Column = require('../models/column.model')
 
-const DEFAULT_COLLUMNS = ['Planned','In-Progress','Testing','Completed']
-//Creates projects and defaults collumns
+const DEFAULT_COLUMNS = ['Planned','In-Progress','Testing','Completed']
+//Creates projects and defaults columns
 exports.createProject = async(name,description, ownerId) =>{
     const project = await Project.create({name, description, ownerId})
 
-    const collumns = await Promise.all(
-        DEFAULT_COLLUMNS.map( async (collumn, index)=>{
-           return  await Collumn.create({projectId: project.id, name: collumn, position: index})
+    const columns = await Promise.all(
+        DEFAULT_COLUMNS.map( async (column, index)=>{
+           return  await Column.create({projectId: project.id, name: column, position: index})
         })
     )
-    return {project, collumns}
-} 
+    return {project, columns}
+}
 //List of projects that are owned by the user
 exports.getUserProjects = async(userId)=>{
     return await Project.find({ownerId: userId})

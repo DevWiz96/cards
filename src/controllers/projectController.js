@@ -7,12 +7,12 @@ exports.createProject = asyncHandler( async (req,res)=>{
     if(!name)
         throw new AppError("No name provided",400)
     const ownerId = req.userId
-    const {project, collumns } = await projectService.createProject(
+    const {project, columns } = await projectService.createProject(
     name,
     description,
     ownerId
     )
-    res.status(201).json({project, collumns})
+    res.status(201).json({project, columns})
 })
 exports.getProjects = asyncHandler(async(req,res)=>{
     const userId = req.userId

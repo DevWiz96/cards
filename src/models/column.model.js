@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const collumnSchema = new mongoose.Schema({
+const columnSchema = new mongoose.Schema({
     projectId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Project',
@@ -17,4 +17,4 @@ const collumnSchema = new mongoose.Schema({
     }
 },{timestamps: true})
 
-module.exports = mongoose.model("Collumn", collumnSchema)
+module.exports = mongoose.model("Column", columnSchema)
