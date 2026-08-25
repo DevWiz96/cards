@@ -4,6 +4,8 @@ const CardLabel = require('../models/cardlabel.model')
 const Column = require('../models/column.model')
 const AppError = require('../util/appError')
 const { validateTransition } = require('../services/transitionService')
+const membershipService = require('../services/membershipService')
+
 
 exports.createCard = async (columnId, title, description, createdBy, assignedBy, assigneeId, dueDate, priority, labelIds) => {
 
@@ -14,8 +16,12 @@ exports.createCard = async (columnId, title, description, createdBy, assignedBy,
     if (!column)
         throw new AppError("Column could not be found", 400)
 
-    console.log("Here")
-
+    const isMember = await membershipService.isMember(column.projectId, createdBy)
+    if(!isMember)
+        throw new AppError("Unable to create Card no permissions",400)
+    const isAssigneeMember = await membershipService.isMember(column.projectId, assigneeId)
+       if(!isAssigneeMember)
+        throw new AppError("Unable to Create/assign card because assignee is not a member",400)
     const card = await Card.create({ columnId, title, description, createdBy, assignedBy, assigneeId, dueDate, priority })
 
     if (labelIds && labelIds.length > 0) {
