@@ -34,3 +34,9 @@ exports.verifyOtp = asyncHandler (async (req, res) => {
          })
          res.json({user:{email:user.email, name: user.name, isVerified: user.isVerified}})
 })
+exports.me = asyncHandler(async(req,res)=>{
+    const user = await User.findById(req.userId)
+    if(!user)
+        throw new AppError("No user found",401)
+    return user
+}) 
