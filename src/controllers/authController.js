@@ -3,6 +3,7 @@ const otpService = require('../services/otpService')
 const emailService = require('../services/emailService')
 const generateToken = require('../util/generateToken')
 const asyncHandler = require('../util/asyncHandler')
+const AppError = require('../util/appError')
 exports.requestOtp = asyncHandler( async (req, res) => {
     const { email } = req.body //Payload
     const user = await User.findOne({ email })
@@ -38,5 +39,5 @@ exports.me = asyncHandler(async(req,res)=>{
     const user = await User.findById(req.userId)
     if(!user)
         throw new AppError("No user found",401)
-    return user
+    res.json({ id: user.id, email: user.email, name: user.name, createdAt: user.createdAt })
 }) 
