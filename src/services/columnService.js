@@ -34,3 +34,7 @@ exports.renameColumn = async(columnId, name)=>
     await column.save()
     return column
 }
+exports.getColumns = async(projectId)=>{
+    const columns = await Column.find({projectId})
+    return columns
+}

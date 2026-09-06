@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 
 const columnSchema = new mongoose.Schema({
     projectId:{
@@ -16,5 +17,6 @@ const columnSchema = new mongoose.Schema({
         required: true,
     }
 },{timestamps: true})
+columnSchema.plugin(idPlugin)
 
 module.exports = mongoose.model("Column", columnSchema)

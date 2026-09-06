@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 const CARD_PRIORITY= ['Low', 'Medium', 'High','Urgent']
 const cardSchema = new mongoose.Schema({
     columnId:{
@@ -35,5 +36,6 @@ const cardSchema = new mongoose.Schema({
         required: true
     }
 }, {timestamps: true})
-
+cardSchema.plugin(idPlugin)
 module.exports = mongoose.model("Card", cardSchema)
+

@@ -54,3 +54,9 @@ exports.moveCard = async (cardId, targetColumnId) => {
     await card.save()
     return card
 }
+exports.getCards = async(columnIds)=>{
+    const cards = await Card.find({
+        columnId: {$in: columnIds}
+    })
+    return cards
+}

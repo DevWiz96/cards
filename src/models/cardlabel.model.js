@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
+
 //Join tabel
 const cardLabelSchema = new mongoose.Schema({
     cardId: {
@@ -12,4 +14,5 @@ const cardLabelSchema = new mongoose.Schema({
        required: true
     }
 })
+cardLabelSchema.plugin(idPlugin)
 module.exports = mongoose.model("CardLabel",cardLabelSchema)
