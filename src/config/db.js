@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const URL = "SDSDSd"
 const connectDB = async()=>{
     try
     {
@@ -9,7 +8,7 @@ const connectDB = async()=>{
     catch(err)
     {
         console.error(err.message)
-        exit(1)
+        process.exit(1)
     }
 }
 module.exports = connectDB
