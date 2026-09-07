@@ -27,19 +27,21 @@ exports.verifyOtp = asyncHandler (async (req, res) => {
             await user.save()
          }
          const token = generateToken(user.id) //user._id
+         const isProd = process.env.NODE_ENV === 'production'
          res.cookie('token',token,{
             maxAge: 7*24*60*60*1000, //7 days,
             httpOnly: true,
-            sameSite: 'lax',
-            secure: process.env.NODE_ENV === 'production'
+            sameSite: isProd ? 'none' : 'lax',
+            secure: isProd
          })
          res.json({user:{email:user.email, name: user.name, isVerified: user.isVerified}})
 })
 exports.logout = asyncHandler(async(req,res)=>{
+    const isProd = process.env.NODE_ENV === 'production'
     res.clearCookie('token',{
         httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production'
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd
     })
     res.json({ success: true, message: "Logged out successfully" })
 })
