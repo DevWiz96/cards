@@ -19,8 +19,9 @@ exports.createCard = async (columnId, title, description, createdBy, assignedBy,
     const isMember = await membershipService.isMember(column.projectId, createdBy)
     if(!isMember)
         throw new AppError("Unable to create Card no permissions",400)
+    console.log(assigneeId +","+ column.projectId)
     const isAssigneeMember = await membershipService.isMember(column.projectId, assigneeId)
-       if(!isAssigneeMember)
+    if(!isAssigneeMember)
         throw new AppError("Unable to Create/assign card because assignee is not a member",400)
     const card = await Card.create({ columnId, title, description, createdBy, assignedBy, assigneeId, dueDate, priority })
 
@@ -59,4 +60,45 @@ exports.getCards = async(columnIds)=>{
         columnId: {$in: columnIds}
     })
     return cards
+}
+exports.deleteCard = async(id)=>{
+    await Card.findByIdAndDelete(id)
+    return true
+}
+
+exports.editCard = async (cardId, userId, { title, description, priority, dueDate, assigneeId, labelIds }) => {
+    const card = await Card.findById(cardId)
+    if (!card)
+        throw new AppError("Card not found", 400)
+
+    const column = await Column.findById(card.columnId)
+    if (!column)
+        throw new AppError("Column could not be found", 400)
+
+    const isMember = await membershipService.isMember(column.projectId, userId)
+    if (!isMember)
+        throw new AppError("Unable to edit Card no permissions", 400)
+
+    if (assigneeId) {
+        const isAssigneeMember = await membershipService.isMember(column.projectId, assigneeId)
+        if (!isAssigneeMember)
+            throw new AppError("Unable to assign card because assignee is not a member", 400)
+        card.assigneeId = assigneeId
+    }
+
+    if (title !== undefined) card.title = title
+    if (description !== undefined) card.description = description
+    if (priority !== undefined) card.priority = priority
+    if (dueDate !== undefined) card.dueDate = dueDate
+
+    await card.save()
+
+    if (labelIds) {
+        await CardLabel.deleteMany({ cardId: card.id })
+        await Promise.all(
+            labelIds.map((labelId) => CardLabel.create({ cardId: card.id, labelId }))
+        )
+    }
+
+    return card
 }

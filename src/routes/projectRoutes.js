@@ -2,7 +2,7 @@ const express = require('express')
 const authMiddleware = require('../middlewares/auth')
 const projectController = require('../controllers/projectController')
 const columnController = require('../controllers/columnController')
-const inviteRoutes = require('./inviteRoutes')
+const { projectInviteRoutes } = require('./inviteRoutes')
 
 const router = express.Router()
 
@@ -13,7 +13,7 @@ router.post('/:id/columns',authMiddleware,columnController.addColumn) // /v1/prj
 
 router.get('/:id/board',authMiddleware, projectController.getBoard)
 
-router.use('/:id/invites', inviteRoutes);  
+router.use('/:id/invites', projectInviteRoutes);
 module.exports = router
 
 //Route-> controller->function

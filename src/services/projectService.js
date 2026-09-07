@@ -1,5 +1,6 @@
 const Project = require('../models/project.model')
 const Column = require('../models/column.model')
+const Membership = require('../models/membership.model')
 const membershipService = require('../services/membershipService')
 
 const DEFAULT_COLUMNS = ['Planned','In-Progress','Testing','Completed']
@@ -14,7 +15,9 @@ exports.createProject = async(name,description, ownerId) =>{
     )
     return {project, columns}
 }
-//List of projects that are owned by the user
+//List of projects the user is a member of (owner or invited member)
 exports.getUserProjects = async(userId)=>{
-    return await Project.find({ownerId: userId})
+    const memberships = await Membership.find({userId})
+    const projectIds = memberships.map(m=>m.projectId)
+    return await Project.find({_id: {$in: projectIds}})
 }

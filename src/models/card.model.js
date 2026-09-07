@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const idPlugin = require('../plugins/idPlugin')
-const CARD_PRIORITY= ['Low', 'Medium', 'High','Urgent']
+const CARD_PRIORITY= ['LOW', 'MEDIUM', 'HIGH','URGENT']
 const cardSchema = new mongoose.Schema({
     columnId:{
         type: mongoose.Schema.Types.ObjectId,

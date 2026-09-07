@@ -35,6 +35,14 @@ exports.verifyOtp = asyncHandler (async (req, res) => {
          })
          res.json({user:{email:user.email, name: user.name, isVerified: user.isVerified}})
 })
+exports.logout = asyncHandler(async(req,res)=>{
+    res.clearCookie('token',{
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+    })
+    res.json({ success: true, message: "Logged out successfully" })
+})
 exports.me = asyncHandler(async(req,res)=>{
     const user = await User.findById(req.userId)
     if(!user)

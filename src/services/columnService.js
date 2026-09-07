@@ -35,6 +35,6 @@ exports.renameColumn = async(columnId, name)=>
     return column
 }
 exports.getColumns = async(projectId)=>{
-    const columns = await Column.find({projectId})
+    const columns = await Column.find({projectId}).sort({position:1})
     return columns
 }
