@@ -13,6 +13,8 @@ router.post('/:id/columns',authMiddleware,columnController.addColumn) // /v1/prj
 
 router.get('/:id/board',authMiddleware, projectController.getBoard)
 
+router.get('/:id/members',authMiddleware, projectController.getMembers)
+
 router.use('/:id/invites', projectInviteRoutes);
 module.exports = router
 

@@ -3,6 +3,7 @@ const AppError = require('../util/appError')
 const projectService = require('../services/projectService')
 const cardService = require('../services/cardService')
 const columnService = require('../services/columnService')
+const membershipService = require('../services/membershipService')
 
 const Card = require('../models/card.model')
 const Column = require('../models/column.model')
@@ -24,6 +25,16 @@ exports.getProjects = asyncHandler(async(req,res)=>{
     const userId = req.userId
     const projects = await projectService.getUserProjects(userId)
     res.json({projects})
+})
+exports.getMembers = asyncHandler(async(req,res)=>{
+    const {id: projectId} = req.params
+    //Only members may see who else is on the project
+    const isMember = await membershipService.isMember(projectId, req.userId)
+    if(!isMember)
+        throw new AppError("You don't have access to this project",403)
+
+    const members = await membershipService.getMembers(projectId)
+    res.json({members})
 })
 exports. getBoard = asyncHandler(async(req,res)=>{
     const {id: projectId} = req.params

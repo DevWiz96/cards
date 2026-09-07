@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 
 const userSchema = new mongoose.Schema({
     email:{
@@ -16,5 +17,6 @@ const userSchema = new mongoose.Schema({
         default: false
     }
 },{timestamps: true})
+userSchema.plugin(idPlugin)
 
 module.exports = mongoose.model("User", userSchema)

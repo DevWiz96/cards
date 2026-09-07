@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 
 const labelSchema = new mongoose.Schema({
     projectId: {
@@ -20,4 +21,5 @@ const labelSchema = new mongoose.Schema({
         required: true
     }
 },{timestamps: true})
+labelSchema.plugin(idPlugin)
 module.exports = mongoose.model("Label", labelSchema)

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 const INVITE_STATUS = ['pending','accepted']
 const inviteSchema = new mongoose.Schema({
   projectId: {
@@ -18,5 +19,6 @@ const inviteSchema = new mongoose.Schema({
     required: true,
   },
 }, { timestamps: true });
+inviteSchema.plugin(idPlugin);
 
 module.exports = mongoose.model('Invite', inviteSchema);

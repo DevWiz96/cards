@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 const MEMBERSHIP_ROLES = ['owner','member']
 const membershipSchema = new mongoose.Schema({
     projectId:{
@@ -17,5 +18,6 @@ const membershipSchema = new mongoose.Schema({
         required: true
     }
 },{timestamps: true})
+membershipSchema.plugin(idPlugin)
 
 module.exports = mongoose.model("Membership",membershipSchema)

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const idPlugin = require('../plugins/idPlugin')
 
 const otpSchema = new mongoose.Schema({
     email:{
@@ -18,5 +19,6 @@ const otpSchema = new mongoose.Schema({
         default: false
     }
 },{timestamps: true})
+otpSchema.plugin(idPlugin)
 
 module.exports = mongoose.model("Otp",otpSchema)
